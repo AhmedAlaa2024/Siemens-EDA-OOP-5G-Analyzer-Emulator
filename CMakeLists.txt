@@ -5,7 +5,7 @@ project(5G_Analyzer)
 if(WIN32)
     # Windows-specific settings
     # You can add Windows-specific compiler flags or settings here
-    set(CMAKE_CXX_COMPILER "C:/Program Files/mingw64/bin")
+    set(CMAKE_CXX_COMPILER "C:/MinGW/bin/g++.exe")
 elseif(UNIX)
     # Linux-specific settings (including Ubuntu)
     # You can add Linux-specific compiler flags or settings here

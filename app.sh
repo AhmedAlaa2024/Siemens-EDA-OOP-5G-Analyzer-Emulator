@@ -8,7 +8,7 @@ if [ $# -eq 1 ]; then
             mkdir build
         fi
         cd build
-        cmake ..
+        cmake -S .. -G "MinGW Makefiles"
         if [ $? -eq 0 ]; then
             make
             if [ $? -eq 0 ]; then
