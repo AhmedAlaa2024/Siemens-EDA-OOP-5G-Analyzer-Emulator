@@ -42,6 +42,42 @@ Note: Sometimes, you may have to use ```sudo``` with ```chmod +x app.sh```
 
     - <span style="color: green;">Real-Time Control Data</span>: refers to any data that is used to control a system or process in real-time. Examples of real-time control data could include sensor readings, control signals, or other types of data that are used to monitor or adjust a system in real-time. The specific format and content of the real-time control data can vary depending on the application or system being used.
 
+# Classes Categories
+0. Simulator                                            -> Ahmed Alaa
+1. PacketReader                                         -> Fady Maged
+2. PacketParser                                         -> Ahmed Alaa
+3. PacketValidatorVisitor (Ethernet or eCPRI)           -> Hazem Adel
+4. PackerPrinterVisitor (Ethernet or eCPRI)             -> Fady Maged
+5. Logger (Ethernet or eCPRI)                           -> Ahmed Alaa
+---
+6. UnitTestClass (...)                                  -> Together
+
+# Design Patterns Used
+1. Singleton -> Logger
+2. Vistor -> 
+3. Strategy
+
+# Implementation Notes
+```C++
+Logger logger;
+RawEthernetPacketReader rawEthernetPacketReader(..., &logger);
+```
+
+# Data Flow
+Simulation Object {
+    Logger logger;
+    Reader reader(logger);
+    Parser packetParser(logger);
+    Printer printer(logger);
+
+    simulate {
+        while (reader.read(packer)) {
+            EthernetFrame *ethernetFrame = packetParser.parse(packer); // all of the data members except payload
+            printer.print(ethernetFrame);
+        }
+    }
+}
+
 # Contributors
 1. Ahmed Alaa El-Sayed Arabi Zidan
 2. Fady Maged
