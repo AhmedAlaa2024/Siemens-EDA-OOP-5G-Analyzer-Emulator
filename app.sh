@@ -8,7 +8,7 @@ if [ $# -eq 1 ]; then
             mkdir build
         fi
         cd build
-        cmake -S .. -G "MinGW Makefiles"
+        cmake ..
         if [ $? -eq 0 ]; then
             make
             if [ $? -eq 0 ]; then
@@ -30,6 +30,7 @@ if [ $# -eq 1 ]; then
         # Clean the project by deleting the 'build' directory
         if [ -d "build" ]; then
             rm -rf build
+            rm Simulation.log
             echo "Project cleaned."
         else
             echo "Build directory not found."
