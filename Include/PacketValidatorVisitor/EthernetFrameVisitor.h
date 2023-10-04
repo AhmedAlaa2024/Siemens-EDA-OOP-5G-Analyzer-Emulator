@@ -1,5 +1,5 @@
-#ifndef Validator_H
-#define Validator_H
+#ifndef EthernetFrameVisitor_H
+#define EthernetFrameVisitor_H
 
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
@@ -21,4 +21,4 @@ class EthernetFrameVisitor
 
 
 
-#endif // Validator_H
+#endif // EthernetFrameVisitor_H
