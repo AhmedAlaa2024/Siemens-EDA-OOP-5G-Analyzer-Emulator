@@ -35,3 +35,4 @@ build/
 .vscode/
 .$5G-Analyzer.drawio.bkp
 .$5G-Analyzer.drawio.dtmp
+*.log

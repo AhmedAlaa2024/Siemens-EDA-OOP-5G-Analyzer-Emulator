@@ -2,7 +2,7 @@
 
 #include <EthernetFrameVisitor/EthernetFrameVisitor.h>
 
-EthernetFrameVisitor::EthernetFrameVisitor(){}
+EthernetFrameVisitor::EthernetFrameVisitor() {}
 
 // void EthernetFrameVisitor::visit(RawEthernetFrame ethernetframe){}
 // void EthernetFrameVisitor::visit(ECPRIEthernetFrame ecpriEthernetFrame){}

@@ -6,19 +6,17 @@
 
 class EthernetFrameVisitor
 {
-    protected:
-        Logger* fileLogger;
-        Logger* consoleLogger;
-        
-    public:
-        EthernetFrameVisitor();
+protected:
+    Logger *fileLogger;
+    Logger *consoleLogger;
 
-        // virtual void visit(RawEthernetFrame ethernetframe);
-        // virtual void visit(ECPRIEthernetFrame ecpriEthernetFrame);
+public:
+    EthernetFrameVisitor();
 
-        ~EthernetFrameVisitor();
+    // virtual void visit(RawEthernetFrame ethernetframe);
+    // virtual void visit(ECPRIEthernetFrame ecpriEthernetFrame);
+
+    ~EthernetFrameVisitor();
 };
-
-
 
 #endif // ETHERNETFRAMEVISITOR_H
