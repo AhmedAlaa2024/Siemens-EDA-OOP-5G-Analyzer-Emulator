@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include <PacketValidatorVisitor/EthernetFrameVisitor.h>
+#include <EthernetFrameVisitor/EthernetFrameVisitor.h>
 
 EthernetFrameVisitor::EthernetFrameVisitor(){}
 
-// void EthernetFrameValidatorVisitorInterface::visit(RawEthernetFrame ethernetframe){}
-// void EthernetFrameValidatorVisitorInterface::visit(ECPRIEthernetFrame ecpriEthernetFrame){}
+// void EthernetFrameVisitor::visit(RawEthernetFrame ethernetframe){}
+// void EthernetFrameVisitor::visit(ECPRIEthernetFrame ecpriEthernetFrame){}
 
 EthernetFrameVisitor::~EthernetFrameVisitor() {}

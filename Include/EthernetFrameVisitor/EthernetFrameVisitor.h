@@ -1,5 +1,5 @@
-#ifndef EthernetFrameVisitor_H
-#define EthernetFrameVisitor_H
+#ifndef ETHERNETFRAMEVISITOR_H
+#define ETHERNETFRAMEVISITOR_H
 
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
@@ -21,4 +21,4 @@ class EthernetFrameVisitor
 
 
 
-#endif // EthernetFrameVisitor_H
+#endif // ETHERNETFRAMEVISITOR_H
