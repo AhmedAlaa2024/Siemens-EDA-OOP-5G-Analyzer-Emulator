@@ -48,14 +48,19 @@ Note: Sometimes, you may have to use `sudo` with `chmod +x app.sh`
 
    - <span style="color: green;">Real-Time Control Data</span>: refers to any data that is used to control a system or process in real-time. Examples of real-time control data could include sensor readings, control signals, or other types of data that are used to monitor or adjust a system in real-time. The specific format and content of the real-time control data can vary depending on the application or system being used.
 
-# Classes Categories
+# Classes
 
-0. Simulator -> Ahmed Alaa
-1. PacketReader -> Fady Maged
-2. PacketParser -> Ahmed Alaa
-3. PacketValidatorVisitor (Ethernet or eCPRI) -> Hazem Adel
-4. PackerPrinterVisitor (Ethernet or eCPRI) -> Fady Maged
-5. Logger (Ethernet or eCPRI) -> Ahmed Alaa
+1. Simulator -> Ahmed Alaa
+2. PacketReader -> Fady Maged
+3. PacketParser -> Ahmed Alaa
+4. EthernetFrame -> Ahmed Alaa
+5. RowEthernetFrame -> Ahmed Alaa
+6. ECPRIEthernetFrame -> Ahmed Alaa
+7. PacketValidatorVisitor (Ethernet or eCPRI) -> Hazem Adel
+8. PackerPrinterVisitor (Ethernet or eCPRI) -> Fady Maged
+9. Logger -> Ahmed Alaa
+10. ConsoleLogger -> Ahmed Alaa
+11. FileLogger -> Ahmed Alaa
 
 ---
 

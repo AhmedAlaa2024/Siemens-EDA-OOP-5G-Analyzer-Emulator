@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(5G_Analyzer)
 
+# Define an option to enable or disable testing
+option(ENABLE_TESTS "Enable tests" OFF)
+
 # Check the platform and adjust settings accordingly
 if(WIN32)
     # Windows-specific settings
@@ -15,11 +18,17 @@ endif()
 # Set C++ standard to C++11 (or any other version you prefer)
 set(CMAKE_CXX_STANDARD 11)
 
+# Define the include directories
+include_directories(${CMAKE_SOURCE_DIR}/Include)
+
 # Find all .cpp files in the "Source" directory, including main.cpp
 file(GLOB SOURCES "Source/*.cpp")
 
-# Define the include directories
-include_directories(${CMAKE_SOURCE_DIR}/Include)
+# Include the "Tests" directory only if ENABLE_TESTS is ON
+# if (ENABLE_TESTS)
+# target_compile_definitions(${PROJECT_NAME} PRIVATE TESTING)
+# add_subdirectory(Tests)
+# endif()
 
 # Create an executable from the source files
 add_executable(${PROJECT_NAME} ${SOURCES})

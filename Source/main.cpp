@@ -1,3 +1,5 @@
+#ifndef TESTING
+
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 #include <Simulator/Simulator.h>
@@ -20,3 +22,16 @@ int main()
 
     return 0;
 }
+#elif
+
+#include "Suites/EthernetFrameTest.cpp"
+
+int main() {
+    EthernetFrameTest EthernetFrameTest();
+
+    ethernetFrameTest->setUp_test1();
+    ethernetFrameTest->test1();
+    return 0;
+}
+
+#endif

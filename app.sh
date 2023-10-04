@@ -26,6 +26,23 @@ if [ $# -eq 1 ]; then
         else
             echo "Executable not found. Please build the project first."
         fi
+    elif [ "$1" == "test" ]; then
+        # Build and run tests using CMake
+        if [ ! -d "build" ]; then
+            mkdir build
+        fi
+        cd build
+        cmake -DENABLE_TESTING=ON ..
+        if [ $? -eq 0 ]; then
+            make
+            if [ $? -eq 0 ]; then
+                ctest
+            else
+                echo "Test build failed."
+            fi
+        else
+            echo "CMake configuration for testing failed."
+        fi
     elif [ "$1" == "clean" ]; then
         # Clean the project by deleting the 'build' directory
         if [ -d "build" ]; then
@@ -36,8 +53,8 @@ if [ $# -eq 1 ]; then
             echo "Build directory not found."
         fi
     else
-        echo "Invalid argument. Use 'build', 'run', or 'clean'."
+        echo "Invalid argument. Use 'build', 'run', 'test', or 'clean'."
     fi
 else
-    echo "Usage: $0 <build|run|clean>"
+    echo "Usage: $0 <build|run|test|clean>"
 fi
