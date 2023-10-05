@@ -4,6 +4,13 @@ project(5G_Analyzer)
 # Define an option to enable or disable testing
 option(ENABLE_TESTS "Enable tests" OFF)
 
+# Check if the Debug option is provided
+option(Debug "Build with debugging information" OFF)
+
+if(Debug)
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+endif()
+
 # Check the platform and adjust settings accordingly
 if(WIN32)
     # Windows-specific settings

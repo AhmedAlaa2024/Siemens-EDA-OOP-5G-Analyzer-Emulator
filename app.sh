@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Check for the command-line argument
+# Check for the command-line arguments
 if [ $# -eq 1 ]; then
     if [ "$1" == "build" ]; then
         # Build the project using CMake
@@ -55,6 +55,34 @@ if [ $# -eq 1 ]; then
     else
         echo "Invalid argument. Use 'build', 'run', 'test', or 'clean'."
     fi
+elif [ $# -eq 2 ] && [ "$1" == "debug" ]; then
+    if [ "$2" == "build" ]; then
+        # Build the project with debugging using CMake
+        if [ ! -d "build" ]; then
+            mkdir build
+        fi
+        cd build
+        cmake -DDebug=ON ..
+        if [ $? -eq 0 ]; then
+            make
+            if [ $? -eq 0 ]; then
+                echo "Debug build successful."
+            else
+                echo "Debug build failed."
+            fi
+        else
+            echo "CMake configuration for debugging failed."
+        fi
+    elif [ "$2" == "run" ]; then
+        # Check if the debug build exists and run the executable
+        if [ -f "build/5G_Analyzer" ]; then
+            gdb --args ./build/5G_Analyzer  # Run with GDB for debugging
+        else
+            echo "Debug executable not found. Please build the debug project first."
+        fi
+    else
+        echo "Invalid argument. Use 'build' or 'run' with 'debug'."
+    fi
 else
-    echo "Usage: $0 <build|run|test|clean>"
+    echo "Usage: $0 <build|run|test|clean> [debug]"
 fi

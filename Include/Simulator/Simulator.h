@@ -8,8 +8,7 @@
 class Simulator
 {
 private:
-    Logger *consoleLogger;
-    Logger *fileLogger;
+    Logger *logger;
 
 public:
     Simulator();

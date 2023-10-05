@@ -68,7 +68,7 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
     this->logger->log("Packet parsed successfully", Severity::INFO);
 
     /* Check if the headers.type (in hex) == "AEFE" (in hex) [which is equivalent to 44798 (in decimal)] */
-    if (*(headers.type) == 44798)
+    if (headers.type[0] == 0xAE && headers.type[1] == 0xFE)
     {
         struct ECPRIEthernetFrameHeaders ecpriHeaders;
 
