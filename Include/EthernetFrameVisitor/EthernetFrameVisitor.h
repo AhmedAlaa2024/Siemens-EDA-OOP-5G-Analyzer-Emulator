@@ -7,6 +7,7 @@
 #include <EthernetFrame/RawEthernetFrame.h>
 
 class EthernetFrameVisitor{
+    EthernetFrameVisitor();
     protected:
         Logger *fileLogger;
         Logger *consoleLogger;
@@ -15,7 +16,7 @@ class EthernetFrameVisitor{
         virtual void visit(RawEthernetFrame ethernetframe);
         virtual void visit(ECPRIEthernetFrame ecpriEthernetFrame);
 
-    EthernetFrameVisitor::~EthernetFrameVisitor() {}
+    ~EthernetFrameVisitor();
 };
 
 #endif //ETHERNETFRAMEVISITOR_H

@@ -10,13 +10,13 @@ class ValidatorEthernetFrame{
         Logger *consoleLogger;
 
     public:
-        ValidatorEthernetFrame(){}
+        ValidatorEthernetFrame();
 
-        bool validateEthernetFrame(char* ethernetFrame){}
-        bool validateRawEthernetFrame(char* rawEthernetFrame){}
-        bool validateECPRIEthernetFrame(char* ecpriEthernetFrame){}
+        bool validateEthernetFrame(unsigned char* ethernetFrame, int ethernetFrameSize);
+        bool validateRawEthernetFrame(unsigned char* rawEthernetFrame, int rawEthernetFrameSize);
+        bool validateECPRIEthernetFrame(unsigned char* ecpriEthernetFrame, int ecpriEthernetFrameSize);
 
-        ~ValidatorEthernetFrame(){}
+        ~ValidatorEthernetFrame();
 };
 
 #endif

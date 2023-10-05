@@ -10,12 +10,11 @@ ValidatorEthernetFrame::ValidatorEthernetFrame()
 }
 
 
-bool ValidatorEthernetFrame::validateEthernetFrame(char* ethernetFrame)
+bool ValidatorEthernetFrame::validateEthernetFrame(unsigned char* ethernetFrame, int ethernetFrameSize)
 {
-    int EthernetFrameSize = (int)strlen(ethernetFrame);
     bool isValid = true;
-    if(EthernetFrameSize < 144 || EthernetFrameSize > 1526)isValid = false;
-    if(EthernetFrameSize % 2)isValid = false;
+    if(ethernetFrameSize < 72 || ethernetFrameSize > 1526)isValid = false;
+    if(ethernetFrameSize % 2)isValid = false;
 
     if(!isValid){
         this->consoleLogger->log("INVALID INPUT FILE", Severity::ERROR);
@@ -24,16 +23,15 @@ bool ValidatorEthernetFrame::validateEthernetFrame(char* ethernetFrame)
     return true;
 }
 
-bool ValidatorEthernetFrame::validateRawEthernetFrame(char* rawEthernetFrame)
+bool ValidatorEthernetFrame::validateRawEthernetFrame(unsigned char* rawEthernetFrame, int rawEthernetFrameSize)
 {
     return true;
 }
 
-bool ValidatorEthernetFrame::validateECPRIEthernetFrame(char* ecpriEthernetFrame)
+bool ValidatorEthernetFrame::validateECPRIEthernetFrame(unsigned char* ecpriEthernetFrame, int ecpriEthernetFrameSize)
 {
-    int EthernetFrameSize = (int)strlen(ecpriEthernetFrame);
-    int startPayloadData = 44, endPayloadData = EthernetFrameSize - 9;
-    startPayloadData += 16;
+    int startPayloadData = 22, endPayloadData = ecpriEthernetFrameSize - 5;
+    startPayloadData += 8;
 
     if(startPayloadData <= endPayloadData){
         return true;
