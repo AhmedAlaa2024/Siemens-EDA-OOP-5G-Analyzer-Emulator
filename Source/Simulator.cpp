@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <EthernetPacketParser/EthernetPacketParser.h>
+#include <EthernetFrame/EthernetFrame.h>
 #include <Simulator/Simulator.h>
 
 #define MAX_PACKET_SIZE 1526
@@ -20,9 +22,12 @@ void Simulator::simulate()
     unsigned char *line = new unsigned char[MAX_PACKET_SIZE];
     int *lineLength = new int(0);
 
+    EthernetPacketParser ethernetPacketParser;
+    EthernetFrame *ethernetFrame;
     while (reader.nextLine(line, lineLength))
     {
-        // parsing code here
+        ethernetFrame = ethernetPacketParser.parsePacket(line, *lineLength);
+        delete ethernetFrame;
     };
 }
 
