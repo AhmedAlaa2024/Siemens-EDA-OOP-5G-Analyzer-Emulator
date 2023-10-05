@@ -3,18 +3,21 @@
 
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
+#include <string>
 
 class ValidatorEthernetFrame{
-    private:
-        Logger *fileLogger;
-        Logger *consoleLogger;
-
-    public:
+    protected:
+        Logger *logger;
+        static ValidatorEthernetFrame* validator;
         ValidatorEthernetFrame();
 
-        bool validateEthernetFrame(unsigned char* ethernetFrame, int ethernetFrameSize);
-        bool validateRawEthernetFrame(unsigned char* rawEthernetFrame, int rawEthernetFrameSize);
-        bool validateECPRIEthernetFrame(unsigned char* ecpriEthernetFrame, int ecpriEthernetFrameSize);
+    public:
+
+        static ValidatorEthernetFrame *getInstance();
+
+        bool validateEthernetFrame(int ethernetFrameSize);
+        bool validateRawEthernetFrame(int rawEthernetFrameSize);
+        bool validateECPRIEthernetFrame(int ecpriEthernetFrameSize);
 
         ~ValidatorEthernetFrame();
 };

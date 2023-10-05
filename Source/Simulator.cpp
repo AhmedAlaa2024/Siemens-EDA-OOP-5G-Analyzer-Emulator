@@ -4,6 +4,7 @@
 #include <EthernetPacketParser/EthernetPacketParser.h>
 #include <EthernetFrame/EthernetFrame.h>
 #include <Simulator/Simulator.h>
+#include <ValidatorEthernetFrame/ValidatorEthernetFrame.h>
 
 #define MAX_PACKET_SIZE 1526
 
@@ -24,7 +25,8 @@ void Simulator::simulate()
 
     EthernetPacketParser ethernetPacketParser;
     EthernetFrame *ethernetFrame;
-
+    
+    ValidatorEthernetFrame* ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
     while (reader.nextLine(line, lineLength)) {
         hexLine = new unsigned char[(*lineLength * 3) + 1]; // Room for "00 " for each character
         int offset = 0; // Offset for writing into hexLine
