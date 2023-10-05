@@ -31,7 +31,7 @@ bool EthernetPacketReader::nextLine(unsigned char *line, int *lineLength)
 
     for (size_t i = 0; i < hexLine.length(); i += 2)
     {
-        line[i] = std::stoi(hexLine.substr(i, 2), nullptr, 16);
+        line[i / 2] = std::stoi(hexLine.substr(i, 2), nullptr, 16);
     }
 
     return true;
