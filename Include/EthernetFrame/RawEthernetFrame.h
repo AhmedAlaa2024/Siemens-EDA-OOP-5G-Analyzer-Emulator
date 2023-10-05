@@ -3,6 +3,9 @@
 
 #include <EthernetFrame/EthernetFrame.h>
 
+// #include <PrinterEthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
+// #include <ValidatorEthernetFrameVisitor/ValidatorEthernetFrameVisitor.h>
+
 class RawEthernetFrame : public EthernetFrame
 {
     private:
@@ -10,14 +13,14 @@ class RawEthernetFrame : public EthernetFrame
 
     public:
         RawEthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
-            unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char *payload, int payloadSize);
+            unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char *payload);
 
         unsigned char* getPayload();
         
-        bool validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor);
-        bool print(PrinterEthernetFrameVisitor* printerEthernetFrameVisitor);
+        // bool validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor);
+        // bool print(PrinterEthernetFrameVisitor* printerEthernetFrameVisitor);
 
         ~RawEthernetFrame();
 };
 
-#enfif
+#endif /* RAWETHERNETFRAME_H_ */

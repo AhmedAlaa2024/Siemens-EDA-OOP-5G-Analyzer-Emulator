@@ -1,6 +1,9 @@
 #ifndef ECPRIETHERNETFRAME_H_
 #define ECPRIETHERNETFRAME_H_
 
+// #include <PrinterEthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
+// #include <ValidatorEthernetFrameVisitor/ValidatorEthernetFrameVisitor.h>
+
 #include <EthernetFrame/EthernetFrame.h>
 
 class ECPRIEthernetFrame : public EthernetFrame
@@ -27,10 +30,10 @@ class ECPRIEthernetFrame : public EthernetFrame
         int getECPRIPayloadLength();
         unsigned char* getRtcData();
 
-        bool validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor);
-        bool print(PrinterEthernetFrameVisitor* printerEthernetFrameVisitor);
+        // bool validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor);
+        // bool print(PrinterEthernetFrameVisitor* printerEthernetFrameVisitor);
 
         ~ECPRIEthernetFrame();
 };
 
-#enfif
+#endif

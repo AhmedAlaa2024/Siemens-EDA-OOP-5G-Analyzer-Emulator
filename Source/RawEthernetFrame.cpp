@@ -2,39 +2,46 @@
 
 #include <EthernetFrame/RawEthernetFrame.h>
 
+// #include <PrinterEthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
+// #include <ValidatorEthernetFrameVisitor/ValidatorEthernetFrameVisitor.h>
+
 #include <Logger/Logger.h>
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 
-RawEthernetFrame::RRawEthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
-    unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char *payload, int payloadSize) : EthernetFrame(preamble, destinationAddress, sourceAddress, type, fcs, payloadSize) {
+RawEthernetFrame::RawEthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
+    unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char *payload) : EthernetFrame(preamble, destinationAddress, sourceAddress, type, fcs, payloadSize) {
     
     this->logger = new ConsoleLogger();
-    this->logger = new FileLogger("Simulation.txt");
-    this->logger.log("Creating new RawEthernetFrame", Severity::INFO);
+    this->logger->setSuccessor(new FileLogger("Simulation.log"));
+    this->logger->log("Creating new RawEthernetFrame", Severity::INFO);
 
     this->payload = new unsigned char[payloadSize];
-    strcpy(this->payload, payload);
+    strcpy((char*)this->payload, (const char*)payload);
 }
 
-RawEthernetFrame::unsigned char* getPayload() {
+unsigned char* RawEthernetFrame::getPayload() {
     unsigned char *payload = new unsigned char[payloadSize];
-    strcpy(payload, this->payload);
+    strcpy((char*)payload, (const char*)this->payload);
 
     return payload;
 }
 
-RawEthernetFrame::bool validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor) {
-    return validatorEthernetFrameVisitor->validate(this);
+// bool RawEthernetFrame::validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor) {
+//     validatorEthernetFrameVisitor->validate(this);
 
-}
-RawEthernetFrame::bool print(PrinterEthernetFrameVisitor* printerEthernetFrameVisitor) {
-    return printerEthernetFrameVisitor->print(this);
-}
+//     return true;
+// }
+
+// bool  RawEthernetFrame::print(PrinterEthernetFrameVisitor* printerEthernetFrameVisitor) {
+//     printerEthernetFrameVisitor->print(this);
+    
+//     return true;
+// }
 
 RawEthernetFrame::~RawEthernetFrame() {
-    if (this->rtcData == NULL) {
-        this->logger.log("payload in RawEthernetFrame is NULL", Severity::ERROR);
+    if (this->payload == NULL) {
+        this->logger->log("payload in RawEthernetFrame is NULL", Severity::ERROR);
     } else {
         delete payload;
     }

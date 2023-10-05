@@ -25,6 +25,10 @@ class Logger {
         }
 
         virtual void log(const std::string& message, Severity sevirty) = 0;
+
+        virtual ~Logger() {
+            delete successor;
+        }
 };
 
 #endif

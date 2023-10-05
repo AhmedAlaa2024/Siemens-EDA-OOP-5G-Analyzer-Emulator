@@ -10,55 +10,53 @@ EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destination
     unsigned char *type, unsigned char *fcs, int payloadSize) {
 
     this->logger = new ConsoleLogger();
-    this->logger = new FileLogger("Simulation.txt");
-    this->logger.log("Creating new ECPRIEthernetFrame", Severity::INFO);
+    this->logger->setSuccessor(new FileLogger("Simulation.log"));
+    this->logger->log("Creating new ECPRIEthernetFrame", Severity::INFO);
 
-    strcpy(this->preamble, preamble);
-    strcpy(this->destinationAddress, destinationAddress);
-    strcpy(this->sourceAddress, sourceAddress);
-    strcpy(this->type, type);
-    strcpy(this->fcs, fcs);
+    strcpy((char*)this->preamble, (const char*)preamble);
+    strcpy((char*)this->destinationAddress, (const char*)destinationAddress);
+    strcpy((char*)this->sourceAddress, (const char*)sourceAddress);
+    strcpy((char*)this->type, (const char*)type);
+    strcpy((char*)this->fcs, (const char*)fcs);
     this->payloadSize = payloadSize;
-    
-    logger = new Logger("EthernetFrame");
 }
 
-EthernetFrame::unsigned char* getPreamble() {
-    char *preamble = new char[8];
-    strcpy(preamble, this->preamble);
+unsigned char* EthernetFrame::getPreamble() {
+    unsigned char *preamble = new unsigned char[8];
+    strcpy((char*)preamble, (const char*)this->preamble);
 
     return preamble;
 }
 
-EthernetFrame::unsigned char* getDestinationAddress(){
-    char *destinationAddress = new char[6];
-    strcpy(destinationAddress, this->destinationAddress);
+unsigned char* EthernetFrame::getDestinationAddress(){
+    unsigned char *destinationAddress = new unsigned char[6];
+    strcpy((char*)destinationAddress, (const char*)this->destinationAddress);
 
     return destinationAddress;
 }
 
-EthernetFrame::unsigned char* getSourceAddress() {
-    char *sourceAddress = new char[6];
-    strcpy(sourceAddress, this->sourceAddress);
+unsigned char* EthernetFrame::getSourceAddress() {
+    unsigned char *sourceAddress = new unsigned char[6];
+    strcpy((char*)sourceAddress, (const char*)this->sourceAddress);
 
     return sourceAddress;
 }
 
-EthernetFrame::unsigned char* getType() {
-    char *type = new char[2];
-    strcpy(type, this->type);
+unsigned char* EthernetFrame::getType() {
+    unsigned char *type = new unsigned char[2];
+    strcpy((char*)type, (const char*)this->type);
 
     return type;
 }
 
-EthernetFrame::unsigned char* getFcs() {
-    char *fcs = new char[4];
-    strcpy(fcs, this->fcs);
+unsigned char* EthernetFrame::getFcs() {
+    unsigned char *fcs = new unsigned char[4];
+    strcpy((char*)fcs, (const char*)this->fcs);
 
     return fcs;
 }
 
-EthernetFrame::int getPayloadSize() {
+int EthernetFrame::getPayloadSize() {
     return this->payloadSize;
 }
 

@@ -1,22 +1,22 @@
-#ifndef ETHERNETFRAMEVISITOR_H
-#define ETHERNETFRAMEVISITOR_H
+#ifndef PRINTERETHERNETFRAMEVISITOR_H
+#define PRINTERETHERNETFRAMEVISITOR_H
 
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 
-class EthernetFrameVisitor
+class PrinterEthernetFrameVisitor
 {
 protected:
     Logger *fileLogger;
     Logger *consoleLogger;
 
 public:
-    EthernetFrameVisitor();
+    PrinterEthernetFrameVisitor() {};
 
     // virtual void visit(RawEthernetFrame ethernetframe);
     // virtual void visit(ECPRIEthernetFrame ecpriEthernetFrame);
 
-    ~EthernetFrameVisitor();
+    ~PrinterEthernetFrameVisitor() {};
 };
 
-#endif // ETHERNETFRAMEVISITOR_H
+#endif // PRINTERETHERNETFRAMEVISITOR_H
