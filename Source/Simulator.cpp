@@ -3,6 +3,7 @@
 #include <EthernetPacketParser/EthernetPacketParser.h>
 #include <EthernetFrame/EthernetFrame.h>
 #include <Simulator/Simulator.h>
+#include <ValidatorEthernetFrame/ValidatorEthernetFrame.h>
 
 #define MAX_PACKET_SIZE 1526
 
@@ -24,6 +25,7 @@ void Simulator::simulate()
 
     EthernetPacketParser ethernetPacketParser;
     EthernetFrame *ethernetFrame;
+    ValidatorEthernetFrame* ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
     while (reader.nextLine(line, lineLength))
     {
         ethernetFrame = ethernetPacketParser.parsePacket(line, *lineLength);

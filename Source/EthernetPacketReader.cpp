@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <EthernetPacketReader/EthernetPacketReader.h>
+#include <ValidatorEthernetFrame/ValidatorEthernetFrame.h>
 
 EthernetPacketReader::EthernetPacketReader(std::string inputFilePath)
 {
@@ -26,7 +27,10 @@ bool EthernetPacketReader::nextLine(unsigned char *line, int *lineLength)
     {
         return false;
     }
-
+    ValidatorEthernetFrame* ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
+    if(!ValidatorEthernetFrame->validateEthernetFrame(hexLine.length())){
+        return false;
+    }
     *lineLength = hexLine.length() / 2;
 
     for (size_t i = 0; i < hexLine.length(); i += 2)
