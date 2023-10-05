@@ -3,8 +3,8 @@
 
 #include <EthernetFrame/EthernetFrame.h>
 
-// #include <PrinterEthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
-// #include <ValidatorEthernetFrameVisitor/ValidatorEthernetFrameVisitor.h>
+// #include <EthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
+// #include <EthernetFrameVisitor/ValidatorEthernetFrameVisitor.h>
 
 class RawEthernetFrame : public EthernetFrame
 {
