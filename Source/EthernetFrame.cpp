@@ -12,6 +12,7 @@ EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destination
 
     this->logger = new ConsoleLogger();
     this->logger->setSuccessor(new FileLogger("Simulation.log"));
+    this->logger->log("Creating new EthernetFrame", Severity::INFO);
 
     strcpy((char *)this->preamble, (const char *)preamble);
     strcpy((char *)this->destinationAddress, (const char *)destinationAddress);
