@@ -1,24 +1,29 @@
 #ifndef PRINTERETHERNETFRAMEVISITOR_H
 #define PRINTERETHERNETFRAMEVISITOR_H
 
+#include <fstream>
+
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 #include <EthernetFrameVisitor/EthernetFrameVisitor.h>
 
 class PrinterEthernetFrameVisitor : EthernetFrameVisitor
 {
-public:
-    PrinterEthernetFrameVisitor();
+    private:
+        std::fstream *fileStream;
 
-    void visit(RawEthernetFrame *ethernetframe);
-    void visit(ECPRIEthernetFrame *ecpriEthernetFrame);
+    public:
+        PrinterEthernetFrameVisitor(std::string fileName);
 
-    ~PrinterEthernetFrameVisitor();
+        void visit(RawEthernetFrame *ethernetframe);
+        void visit(ECPRIEthernetFrame *ecpriEthernetFrame);
 
-private:
-    static int frameNum;
+        ~PrinterEthernetFrameVisitor();
 
-    void printHex(unsigned char *data, size_t size, std::string prefix = "", bool addNewLine = false);
+    private:
+        static int frameNum;
+
+        void printHex(unsigned char *data, size_t size, std::string prefix = "", bool addNewLine = false);
 };
 
 #endif // PRINTERETHERNETFRAMEVISITOR_H

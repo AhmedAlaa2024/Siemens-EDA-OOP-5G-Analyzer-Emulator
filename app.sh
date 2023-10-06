@@ -47,10 +47,11 @@ if [ $# -eq 1 ]; then
         # Clean the project by deleting the 'build' directory
         if [ -d "build" ]; then
             rm -rf build
-            rm Simulation.log
+            rm -f output_packets
+            rm -f Simulation.log
             echo "Project cleaned."
         else
-            echo "Build directory not found."
+            echo "Project is already clean!"
         fi
     else
         echo "Invalid argument. Use 'build', 'run', 'test', or 'clean'."

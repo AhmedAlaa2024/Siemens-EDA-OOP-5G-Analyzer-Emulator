@@ -7,7 +7,9 @@
 #include <EthernetFrame/RawEthernetFrame.h>
 #include <EthernetFrame/ECPRIEthernetFrame.h>
 
-PrinterEthernetFrameVisitor::PrinterEthernetFrameVisitor() {}
+PrinterEthernetFrameVisitor::PrinterEthernetFrameVisitor(std::string fileName = "output_packets") {
+    this->fileStream = new std::fstream(fileName, std::ios::out);
+}
 
 int PrinterEthernetFrameVisitor::frameNum = 0;
 
@@ -77,17 +79,21 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
 
 void PrinterEthernetFrameVisitor::printHex(unsigned char *data, size_t size, std::string prefix, bool addNewLine)
 {
-    std::cout << prefix;
+    *(this->fileStream) << prefix;
 
     for (size_t i = 0; i < size; i++)
     {
-        std::cout << std::hex << std::setfill('0') << std::setw(2) << +data[i];
+        *(this->fileStream) << std::hex << std::setfill('0') << std::setw(2) << +data[i];
     }
 
     if (addNewLine)
     {
-        std::cout << "\n";
+        *(this->fileStream) << "\n";
     }
 }
 
-PrinterEthernetFrameVisitor::~PrinterEthernetFrameVisitor() {}
+PrinterEthernetFrameVisitor::~PrinterEthernetFrameVisitor() {
+    if (this->fileStream != nullptr) {
+        delete this->fileStream;
+    }
+}

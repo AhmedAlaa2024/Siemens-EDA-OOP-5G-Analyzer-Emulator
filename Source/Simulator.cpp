@@ -27,7 +27,7 @@ void Simulator::simulate()
     EthernetPacketParser ethernetPacketParser;
     EthernetFrame *ethernetFrame;
 
-    // PrinterEthernetFrameVisitor printer;
+    PrinterEthernetFrameVisitor printer("output_packets");
 
     ValidatorEthernetFrame *ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
 
@@ -47,7 +47,7 @@ void Simulator::simulate()
 
         ethernetFrame = ethernetPacketParser.parsePacket(line, *lineLength);
 
-        // ethernetFrame->accept(printer);
+        ethernetFrame->accept(printer);
 
         delete ethernetFrame;
         delete[] hexLine; // Use delete[] for dynamic arrays
