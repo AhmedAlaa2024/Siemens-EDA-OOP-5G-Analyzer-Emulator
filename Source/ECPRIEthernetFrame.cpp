@@ -45,7 +45,7 @@ unsigned char ECPRIEthernetFrame::getMessageType()
 
 unsigned char *ECPRIEthernetFrame::getRtcId()
 {
-    unsigned char *rtcId = new unsigned char[2];
+    unsigned char *rtcId = new unsigned char[3];
     strcpy((char *)rtcId, (const char *)this->rtcId);
 
     return rtcId;
@@ -53,7 +53,7 @@ unsigned char *ECPRIEthernetFrame::getRtcId()
 
 unsigned char *ECPRIEthernetFrame::getSeqId()
 {
-    unsigned char *seqId = new unsigned char[2];
+    unsigned char *seqId = new unsigned char[3];
     strcpy((char *)seqId, (const char *)this->seqId);
 
     return seqId;

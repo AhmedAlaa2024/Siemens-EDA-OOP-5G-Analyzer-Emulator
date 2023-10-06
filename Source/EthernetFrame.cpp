@@ -1,4 +1,6 @@
+#include <iostream>
 #include <string.h>
+#include <iomanip>
 
 #include <EthernetFrame/EthernetFrame.h>
 
@@ -14,17 +16,25 @@ EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destination
     this->logger->setSuccessor(new FileLogger("Simulation.log"));
     this->logger->log("Creating new EthernetFrame", Severity::INFO);
 
-    strcpy((char *)this->preamble, (const char *)preamble);
-    strcpy((char *)this->destinationAddress, (const char *)destinationAddress);
-    strcpy((char *)this->sourceAddress, (const char *)sourceAddress);
-    strcpy((char *)this->type, (const char *)type);
-    strcpy((char *)this->fcs, (const char *)fcs);
+    memcpy(this->preamble, preamble, 9);
+    memcpy(this->destinationAddress, destinationAddress, 7);
+    memcpy(this->sourceAddress, sourceAddress, 7);
+    memcpy(this->type, type, 3);
+    memcpy(this->fcs, fcs, 5);
+
+    std::cout << "CRC: ";
+    for (size_t i = 0; i < 4; i++)
+    {
+        std::cout << std::hex << std::setfill('0') << std::setw(2) << +this->fcs[i];
+    }
+    std::cout << std::endl;
+
     this->payloadSize = payloadSize;
 }
 
 unsigned char *EthernetFrame::getPreamble()
 {
-    unsigned char *preamble = new unsigned char[8];
+    unsigned char *preamble = new unsigned char[9];
     strcpy((char *)preamble, (const char *)this->preamble);
 
     return preamble;
@@ -32,7 +42,7 @@ unsigned char *EthernetFrame::getPreamble()
 
 unsigned char *EthernetFrame::getDestinationAddress()
 {
-    unsigned char *destinationAddress = new unsigned char[6];
+    unsigned char *destinationAddress = new unsigned char[7];
     strcpy((char *)destinationAddress, (const char *)this->destinationAddress);
 
     return destinationAddress;
@@ -40,7 +50,7 @@ unsigned char *EthernetFrame::getDestinationAddress()
 
 unsigned char *EthernetFrame::getSourceAddress()
 {
-    unsigned char *sourceAddress = new unsigned char[6];
+    unsigned char *sourceAddress = new unsigned char[7];
     strcpy((char *)sourceAddress, (const char *)this->sourceAddress);
 
     return sourceAddress;
@@ -48,7 +58,7 @@ unsigned char *EthernetFrame::getSourceAddress()
 
 unsigned char *EthernetFrame::getType()
 {
-    unsigned char *type = new unsigned char[2];
+    unsigned char *type = new unsigned char[3];
     strcpy((char *)type, (const char *)this->type);
 
     return type;
@@ -56,7 +66,7 @@ unsigned char *EthernetFrame::getType()
 
 unsigned char *EthernetFrame::getFcs()
 {
-    unsigned char *fcs = new unsigned char[4];
+    unsigned char *fcs = new unsigned char[5];
     strcpy((char *)fcs, (const char *)this->fcs);
 
     return fcs;

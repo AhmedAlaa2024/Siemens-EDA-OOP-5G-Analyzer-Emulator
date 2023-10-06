@@ -56,7 +56,7 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
 
     this->printHex(ethernetframe->getRtcId(), 2);
     this->printHex(ethernetframe->getSeqId(), 2);
-    this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength - 4, "", true);
+    // this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength - 4, "", true);
     this->printHex(ethernetframe->getFcs(), 4, "", true);
 
     this->printHex(ethernetframe->getFcs(), 4, "CRC: ", true);

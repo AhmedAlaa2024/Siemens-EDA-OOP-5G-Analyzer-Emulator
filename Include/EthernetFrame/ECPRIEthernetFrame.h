@@ -9,8 +9,8 @@ private:
     unsigned char protocolVersion;
     unsigned char concatenationIndicator;
     unsigned char messageType;
-    unsigned char rtcId[2];
-    unsigned char seqId[2];
+    unsigned char rtcId[3];
+    unsigned char seqId[3];
     int eCPRIPayloadLength;
     unsigned char *rtcData;
 

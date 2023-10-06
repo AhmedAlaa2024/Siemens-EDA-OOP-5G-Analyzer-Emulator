@@ -8,11 +8,11 @@ class PrinterEthernetFrameVisitor;
 class EthernetFrame
 {
 protected:
-    unsigned char preamble[8];
-    unsigned char destinationAddress[6];
-    unsigned char sourceAddress[6];
-    unsigned char type[2];
-    unsigned char fcs[4];
+    unsigned char preamble[9];
+    unsigned char destinationAddress[7];
+    unsigned char sourceAddress[7];
+    unsigned char type[3];
+    unsigned char fcs[5];
     int payloadSize;
 
     Logger *logger;
