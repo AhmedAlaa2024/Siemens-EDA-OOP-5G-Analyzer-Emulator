@@ -85,5 +85,13 @@ elif [ $# -eq 2 ] && [ "$1" == "debug" ]; then
         echo "Invalid argument. Use 'build' or 'run' with 'debug'."
     fi
 else
-    echo "Usage: $0 <build|run|test|clean> [debug]"
+    echo "Usage: $0 <build|run|debug <build|run> |clean>"
+    echo "Use 'build' to build the project."
+    echo "Use 'run' to run the executable."
+    echo "Use 'debug build' to build the project with debugging."
+    echo "Use 'debug run' to run the executable with debugging."
+    echo "Use 'clean' to clean the project."
+
+    echo 'For example, to build the project, run:'
+    echo '      ./app.sh build'
 fi
