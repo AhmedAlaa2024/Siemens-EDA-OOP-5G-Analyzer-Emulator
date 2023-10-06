@@ -33,7 +33,7 @@ unsigned char *RawEthernetFrame::getPayload()
 //     return true;
 // }
 
-void RawEthernetFrame::accept(PrinterEthernetFrameVisitor printerEthernetFrameVisitor)
+void RawEthernetFrame::accept(PrinterEthernetFrameVisitor &printerEthernetFrameVisitor)
 {
     printerEthernetFrameVisitor.visit(this);
     return;

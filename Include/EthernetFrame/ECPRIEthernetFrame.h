@@ -27,7 +27,7 @@ public:
     int getECPRIPayloadLength();
     unsigned char *getRtcData();
 
-    void accept(PrinterEthernetFrameVisitor printerEthernetFrameVisitor);
+    void accept(PrinterEthernetFrameVisitor &printerEthernetFrameVisitor);
 
     ~ECPRIEthernetFrame();
 };

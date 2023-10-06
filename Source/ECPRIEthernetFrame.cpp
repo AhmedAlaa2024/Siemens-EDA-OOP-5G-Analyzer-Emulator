@@ -72,7 +72,7 @@ unsigned char *ECPRIEthernetFrame::getRtcData()
     return rtcData;
 }
 
-void ECPRIEthernetFrame::accept(PrinterEthernetFrameVisitor printerEthernetFrameVisitor)
+void ECPRIEthernetFrame::accept(PrinterEthernetFrameVisitor &printerEthernetFrameVisitor)
 {
     printerEthernetFrameVisitor.visit(this);
     return;

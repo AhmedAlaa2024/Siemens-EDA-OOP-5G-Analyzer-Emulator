@@ -30,7 +30,7 @@ public:
 
     int getPayloadSize();
 
-    virtual void accept(PrinterEthernetFrameVisitor validatorEthernetFrameVisitor) = 0;
+    virtual void accept(PrinterEthernetFrameVisitor &validatorEthernetFrameVisitor) = 0;
 
     ~EthernetFrame();
 };

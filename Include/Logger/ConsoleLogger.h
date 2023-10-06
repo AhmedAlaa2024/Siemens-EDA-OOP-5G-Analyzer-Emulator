@@ -8,6 +8,8 @@
 class ConsoleLogger : public Logger {
     public:
         void log(const std::string& message, Severity sevirty) override {
+            #if (LOGGER_DISABLED != 1)
+
             switch (sevirty) {
                 case Severity::INFO:
                     std::cout << "[INFO] " << message << std::endl;
@@ -34,6 +36,8 @@ class ConsoleLogger : public Logger {
             if (successor != nullptr) {
                 successor->log(message, sevirty);
             }
+
+            #endif
         }
 };
 

@@ -17,6 +17,8 @@ public:
 
     void log(const std::string &message, Severity sevirty) override
     {
+        #if (LOGGER_DISABLED != 1)
+
         std::ofstream file(filename, std::ios::app);
 
         if (!file.is_open())
@@ -56,6 +58,8 @@ public:
                 successor->log(message, sevirty);
             }
         }
+        
+        #endif
     }
 };
 

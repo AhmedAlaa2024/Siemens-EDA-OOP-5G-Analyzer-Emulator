@@ -14,7 +14,7 @@ public:
 
     unsigned char *getPayload();
 
-    void accept(PrinterEthernetFrameVisitor printerEthernetFrameVisitor);
+    void accept(PrinterEthernetFrameVisitor &printerEthernetFrameVisitor);
 
     ~RawEthernetFrame();
 };
