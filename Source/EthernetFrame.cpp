@@ -35,7 +35,7 @@ EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destination
 unsigned char *EthernetFrame::getPreamble()
 {
     unsigned char *preamble = new unsigned char[9];
-    strcpy((char *)preamble, (const char *)this->preamble);
+    memcpy((char *)preamble, (const char *)this->preamble, 9);
 
     return preamble;
 }
@@ -43,7 +43,7 @@ unsigned char *EthernetFrame::getPreamble()
 unsigned char *EthernetFrame::getDestinationAddress()
 {
     unsigned char *destinationAddress = new unsigned char[7];
-    strcpy((char *)destinationAddress, (const char *)this->destinationAddress);
+    memcpy((char *)destinationAddress, (const char *)this->destinationAddress, 7);
 
     return destinationAddress;
 }
@@ -51,7 +51,7 @@ unsigned char *EthernetFrame::getDestinationAddress()
 unsigned char *EthernetFrame::getSourceAddress()
 {
     unsigned char *sourceAddress = new unsigned char[7];
-    strcpy((char *)sourceAddress, (const char *)this->sourceAddress);
+    memcpy((char *)sourceAddress, (const char *)this->sourceAddress, 7);
 
     return sourceAddress;
 }
@@ -59,7 +59,7 @@ unsigned char *EthernetFrame::getSourceAddress()
 unsigned char *EthernetFrame::getType()
 {
     unsigned char *type = new unsigned char[3];
-    strcpy((char *)type, (const char *)this->type);
+    memcpy((char *)type, (const char *)this->type, 3);
 
     return type;
 }
@@ -67,7 +67,7 @@ unsigned char *EthernetFrame::getType()
 unsigned char *EthernetFrame::getFcs()
 {
     unsigned char *fcs = new unsigned char[5];
-    strcpy((char *)fcs, (const char *)this->fcs);
+    memcpy((char *)fcs, (const char *)this->fcs, 5);
 
     return fcs;
 }

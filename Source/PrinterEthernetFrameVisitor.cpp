@@ -50,13 +50,13 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
 
     unsigned char *ecpriPayloadLengthFormatted = new unsigned char[2];
     int ecpriPayloadLength = ethernetframe->getECPRIPayloadLength();
-    ecpriPayloadLengthFormatted[0] = (ecpriPayloadLength >> 8) & 0xFF;
-    ecpriPayloadLengthFormatted[1] = ecpriPayloadLength & 0xFF;
+    ecpriPayloadLengthFormatted[0] = ecpriPayloadLength & 0xFF;
+    ecpriPayloadLengthFormatted[1] = (ecpriPayloadLength >> 8) & 0xFF;
     this->printHex(ecpriPayloadLengthFormatted, 2);
 
     this->printHex(ethernetframe->getRtcId(), 2);
     this->printHex(ethernetframe->getSeqId(), 2);
-    // this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength - 4, "", true);
+    this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength - 4, "", true);
     this->printHex(ethernetframe->getFcs(), 4, "", true);
 
     this->printHex(ethernetframe->getFcs(), 4, "CRC: ", true);

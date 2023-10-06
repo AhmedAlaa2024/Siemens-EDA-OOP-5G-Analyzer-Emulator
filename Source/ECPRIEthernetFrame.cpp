@@ -46,7 +46,7 @@ unsigned char ECPRIEthernetFrame::getMessageType()
 unsigned char *ECPRIEthernetFrame::getRtcId()
 {
     unsigned char *rtcId = new unsigned char[3];
-    strcpy((char *)rtcId, (const char *)this->rtcId);
+    memcpy((char *)rtcId, (const char *)this->rtcId, 3);
 
     return rtcId;
 }
@@ -54,7 +54,7 @@ unsigned char *ECPRIEthernetFrame::getRtcId()
 unsigned char *ECPRIEthernetFrame::getSeqId()
 {
     unsigned char *seqId = new unsigned char[3];
-    strcpy((char *)seqId, (const char *)this->seqId);
+    memcpy((char *)seqId, (const char *)this->seqId, 3);
 
     return seqId;
 }
@@ -66,8 +66,8 @@ int ECPRIEthernetFrame::getECPRIPayloadLength()
 
 unsigned char *ECPRIEthernetFrame::getRtcData()
 {
-    unsigned char *rtcData = new unsigned char[eCPRIPayloadLength];
-    strcpy((char *)rtcData, (const char *)this->rtcData);
+    unsigned char *rtcData = new unsigned char[eCPRIPayloadLength + 1];
+    memcpy((char *)rtcData, (const char *)this->rtcData, eCPRIPayloadLength + 1);
 
     return rtcData;
 }
