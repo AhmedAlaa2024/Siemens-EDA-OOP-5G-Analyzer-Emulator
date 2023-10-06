@@ -4,13 +4,23 @@ This is a C++ based project which emulate the 5G packet analyzer by parsing inpu
 
 # To build the project
 
+## On Linux or MacOS
 ```
 chmod +x app.sh
 ./app.sh build
 ./app run
 ```
-
 Note: Sometimes, you may have to use `sudo` with `chmod +x app.sh`
+
+## On windows
+You can use git bash to run as on Linux, but in case you face any problems, you can do the following:
+```
+mkdir -p build
+cd build
+cmake .. -G "MinGW Makefiles"
+make
+```
+
 
 # UML Design
 
@@ -56,45 +66,16 @@ Note: Sometimes, you may have to use `sudo` with `chmod +x app.sh`
 4. EthernetFrame -> Ahmed Alaa
 5. RowEthernetFrame -> Ahmed Alaa
 6. ECPRIEthernetFrame -> Ahmed Alaa
-7. PacketValidatorVisitor (Ethernet or eCPRI) -> Hazem Adel
-8. PackerPrinterVisitor (Ethernet or eCPRI) -> Fady Maged
-9. Logger -> Ahmed Alaa
-10. ConsoleLogger -> Ahmed Alaa
-11. FileLogger -> Ahmed Alaa
-
+7. ValidatorEthernetFrame -> Hazem Adel
+8. PrinterEthernetFrameVisitor (Ethernet or eCPRI) -> Fady Maged
+9. Logger, ConsoleLogger, FileLogger -> Ahmed Alaa
 ---
-
-6. UnitTestClass (...) -> Together
+10. UnitTestClass (...) -> Together
 
 # Design Patterns Used
-
-1. Singleton -> Logger
-2. Vistor ->
-3. Strategy
-
-# Implementation Notes
-
-```C++
-Logger logger;
-RawEthernetPacketReader rawEthernetPacketReader(..., &logger);
-```
-
-# Data Flow
-
-Simulation Object {
-Logger logger;
-Reader reader(logger);
-Parser packetParser(logger);
-Printer printer(logger);
-
-    simulate {
-        while (reader.read(packer)) {
-            EthernetFrame *ethernetFrame = packetParser.parse(packer); // all of the data members except payload
-            printer.print(ethernetFrame);
-        }
-    }
-
-}
+1. Chain of Responsibilities -> Logger, ConsoleLogger, FileLogger
+1. Singleton -> ValidatorEthernetFrame
+3. Vistor -> PrinterEthernetFrameVisitor
 
 # Contributors
 
