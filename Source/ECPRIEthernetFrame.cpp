@@ -1,4 +1,5 @@
 #include <string.h>
+#include <iomanip>
 
 #include <EthernetFrame/ECPRIEthernetFrame.h>
 #include <EthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
@@ -18,14 +19,16 @@ ECPRIEthernetFrame::ECPRIEthernetFrame(unsigned char *preamble, unsigned char *d
     this->logger->log("Creating new ECPRIEthernetFrame", Severity::INFO);
 
     this->protocolVersion = protocolVersion;
+
     this->concatenationIndicator = concatenationIndicator;
     this->messageType = messageType;
-    strcpy((char *)this->rtcId, (const char *)rtcId);
-    strcpy((char *)this->seqId, (const char *)seqId);
+    memcpy((char *)this->rtcId, (const char *)rtcId, 2);
+    memcpy((char *)this->seqId, (const char *)seqId, 2);
 
-    this->eCPRIPayloadLength = eCPRIpayloadLength;
+    this->eCPRIPayloadLength = ((eCPRIpayloadLength & 0xFF00) >> 8) | ((eCPRIpayloadLength & 0xFF) << 8);
+
     this->rtcData = new unsigned char[eCPRIpayloadLength];
-    strcpy((char *)this->rtcData, (const char *)rtcData);
+    memcpy((char *)this->rtcData, (const char *)rtcData, this->eCPRIPayloadLength + 1);
 }
 
 unsigned char ECPRIEthernetFrame::getProtocolVersion()

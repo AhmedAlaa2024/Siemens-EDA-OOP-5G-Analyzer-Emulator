@@ -8,6 +8,7 @@
 #include <Logger/FileLogger.h>
 
 #include <string.h>
+#include <iomanip>
 
 struct EthernetFrameHeaders
 {
@@ -45,24 +46,24 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
     struct EthernetFrameHeaders headers;
 
     /* First, Copy all the headers of the packet from the beginning of the string */
-    memcpy(headers.preamble, packet, 8);
+    memcpy(&(headers.preamble), packet, 8);
     headers.preamble[8] = '\0';
 
-    memcpy(headers.destination, packet + 8, 6);
+    memcpy(&(headers.destination), packet + 8, 6);
     headers.destination[6] = '\0';
 
-    memcpy(headers.source, packet + 14, 6);
+    memcpy(&(headers.source), packet + 14, 6);
     headers.source[6] = '\0';
 
-    memcpy(headers.type, packet + 20, 2);
+    memcpy(&(headers.type), packet + 20, 2);
     headers.type[2] = '\0';
 
     /* Second, Copy the payload (data) itself from the right boundries of the packet string */
-    memcpy(headers.payload, packet + 22, packetSize - 26);
+    memcpy(&(headers.payload), packet + 22, packetSize - 26);
     headers.payload[packetSize - 26] = '\0';
 
     /* Finaly, Copy the last 4 bytes as FCS (CRC) */
-    memcpy(headers.crc, packet + packetSize - 4, 4);
+    memcpy(&(headers.crc), packet + packetSize - 4, 4);
     headers.crc[4] = '\0';
 
     this->logger->log("Packet parsed successfully", Severity::INFO);
@@ -74,20 +75,21 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
 
         /* First, Copy all the headers of the packet from the beginning of the string */
         ecpriHeaders.protocolVersion = (headers.payload[0] >> 4) & 0x0F;
+        
         ecpriHeaders.concatenationIndicator = (headers.payload[0] & 0x0F);
 
         ecpriHeaders.messageType = headers.payload[1];
 
         memcpy(&(ecpriHeaders.eCPRIpayloadLength), headers.payload + 2, 2);
 
-        memcpy(ecpriHeaders.rtcId, headers.payload + 4, 2);
+        memcpy(&(ecpriHeaders.rtcId), headers.payload + 4, 2);
         ecpriHeaders.rtcId[2] = '\0';
 
-        memcpy(ecpriHeaders.seqId, headers.payload + 6, 2);
+        memcpy(&(ecpriHeaders.seqId), headers.payload + 6, 2);
         ecpriHeaders.seqId[2] = '\0';
 
         /* Second, Copy the payload (data) itself from the right boundries of the packet string */
-        memcpy(ecpriHeaders.rtcData, headers.payload + 8, packetSize - 34);
+        memcpy(&(ecpriHeaders.rtcData), headers.payload + 8, packetSize - 34);
         ecpriHeaders.rtcData[packetSize - 34] = '\0';
 
         this->logger->log("ECPRI packet parsed successfully", Severity::INFO);

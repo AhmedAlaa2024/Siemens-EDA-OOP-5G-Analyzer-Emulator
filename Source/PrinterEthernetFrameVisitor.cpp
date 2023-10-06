@@ -1,4 +1,5 @@
 #include <sstream>
+#include <string.h>
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -98,11 +99,9 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
     unsigned char *ecpriPayloadLengthFormatted = new unsigned char[2];
     unsigned int ecpriPayloadLength = ethernetframe->getECPRIPayloadLength();
 
-    ecpriPayloadLengthFormatted[0] = ecpriPayloadLength & 0xFF;
-    ecpriPayloadLengthFormatted[1] = (ecpriPayloadLength >> 8) & 0xFF;
+    ecpriPayloadLengthFormatted[0] = (ecpriPayloadLength >> 8) & 0xFF;
+    ecpriPayloadLengthFormatted[1] = ecpriPayloadLength & 0xFF;
     this->printHex(ecpriPayloadLengthFormatted, 2);
-
-    ecpriPayloadLength = ((ecpriPayloadLength & 0xFF00) >> 8) | ((ecpriPayloadLength & 0xFF) << 8);
 
     tempPtr = ethernetframe->getRtcId();
     this->printHex(ethernetframe->getRtcId(), 2);
@@ -136,6 +135,7 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
     
     this->printHex(messageTypeFormatted, 1, "Message Type: ", true);
     this->printHex(ecpriPayloadLengthFormatted, 2, "Payload Size: ", true);
+
     this->printHex(protocolVersion, 1, "Protocol Version: ", true);
     
     tempPtr = ethernetframe->getRtcId();
@@ -165,9 +165,18 @@ void PrinterEthernetFrameVisitor::printHex(unsigned char *data, size_t size, std
 {
     *(this->fileStream) << prefix;
 
-    for (size_t i = 0; i < size; i++)
-    {
-        *(this->fileStream) << std::hex << std::setfill('0') << std::setw(2) << +data[i];
+    unsigned int totalData = 0;
+
+    for (int i = 0; i < size; i++) {
+        totalData += data[i];
+    }
+
+    for (size_t i = 0; i < size; i++) {
+        if (totalData < 0x2 && strcmp(prefix.c_str(), "") != 0) {
+            *(this->fileStream) << std::uppercase << std::hex << std::setfill('0') << std::setw(1) << +data[i];
+        } else {
+            *(this->fileStream) << std::uppercase << std::hex << std::setfill('0') << std::setw(2) << +data[i];
+        }
     }
 
     if (addNewLine)

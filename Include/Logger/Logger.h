@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#define LOGGER_DISABLED 1
+#define LOGGER_DISABLED 0
 
 typedef enum {
     INFO,
