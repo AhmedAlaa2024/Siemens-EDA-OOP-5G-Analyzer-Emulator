@@ -1,15 +1,17 @@
 #include <string.h>
 
 #include <EthernetFrame/ECPRIEthernetFrame.h>
+#include <EthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
 
 #include <Logger/Logger.h>
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 
 ECPRIEthernetFrame::ECPRIEthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
-    unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char protocolVersion, unsigned char concatenationIndicator,
-    unsigned char messageType, unsigned char *rtcId, unsigned char *seqId, int eCPRIpayloadLength, unsigned char *rtcData)
-    : EthernetFrame(preamble, destinationAddress, sourceAddress, type, fcs, payloadSize) {
+                                       unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char protocolVersion, unsigned char concatenationIndicator,
+                                       unsigned char messageType, unsigned char *rtcId, unsigned char *seqId, int eCPRIpayloadLength, unsigned char *rtcData)
+    : EthernetFrame(preamble, destinationAddress, sourceAddress, type, fcs, payloadSize)
+{
 
     this->logger = new ConsoleLogger();
     this->logger->setSuccessor(new FileLogger("Simulation.log"));
@@ -18,67 +20,77 @@ ECPRIEthernetFrame::ECPRIEthernetFrame(unsigned char *preamble, unsigned char *d
     this->protocolVersion = protocolVersion;
     this->concatenationIndicator = concatenationIndicator;
     this->messageType = messageType;
-    strcpy((char*)this->rtcId, (const char*)rtcId);
-    strcpy((char*)this->seqId, (const char*)seqId);
+    strcpy((char *)this->rtcId, (const char *)rtcId);
+    strcpy((char *)this->seqId, (const char *)seqId);
 
     this->eCPRIPayloadLength = eCPRIpayloadLength;
     this->rtcData = new unsigned char[eCPRIpayloadLength];
-    strcpy((char*)this->rtcData, (const char*)rtcData);
+    strcpy((char *)this->rtcData, (const char *)rtcData);
 }
 
-unsigned char ECPRIEthernetFrame::getProtocolVersion() {
+unsigned char ECPRIEthernetFrame::getProtocolVersion()
+{
     return protocolVersion;
 }
 
-unsigned char ECPRIEthernetFrame::getConcatenationIndicator() {
+unsigned char ECPRIEthernetFrame::getConcatenationIndicator()
+{
     return concatenationIndicator;
 }
 
-unsigned char ECPRIEthernetFrame::getMessageType() {
+unsigned char ECPRIEthernetFrame::getMessageType()
+{
     return messageType;
 }
 
-unsigned char* ECPRIEthernetFrame::getRtcId() {
+unsigned char *ECPRIEthernetFrame::getRtcId()
+{
     unsigned char *rtcId = new unsigned char[2];
-    strcpy((char*)rtcId, (const char*)this->rtcId);
+    strcpy((char *)rtcId, (const char *)this->rtcId);
 
     return rtcId;
 }
 
-unsigned char* ECPRIEthernetFrame::getSeqId() {
+unsigned char *ECPRIEthernetFrame::getSeqId()
+{
     unsigned char *seqId = new unsigned char[2];
-    strcpy((char*)seqId, (const char*)this->seqId);
+    strcpy((char *)seqId, (const char *)this->seqId);
 
     return seqId;
 }
 
-int ECPRIEthernetFrame::getECPRIPayloadLength() {
+int ECPRIEthernetFrame::getECPRIPayloadLength()
+{
     return eCPRIPayloadLength;
 }
 
-unsigned char* ECPRIEthernetFrame::getRtcData() {
+unsigned char *ECPRIEthernetFrame::getRtcData()
+{
     unsigned char *rtcData = new unsigned char[eCPRIPayloadLength];
-    strcpy((char*)rtcData, (const char*)this->rtcData);
+    strcpy((char *)rtcData, (const char *)this->rtcData);
 
     return rtcData;
 }
 
-// bool ECPRIEthernetFrame::validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor) {
-//     return validatorEthernetFrameVisitor->validate(this);
-// }
+void ECPRIEthernetFrame::accept(PrinterEthernetFrameVisitor printerEthernetFrameVisitor)
+{
+    printerEthernetFrameVisitor.visit(this);
+    return;
+}
 
-// bool ECPRIEthernetFrame::print(PrinterEthernetFrameVisitor* printerEthernetFrameVisitor) {
-//     return printerEthernetFrameVisitor->print(this);
-// }
-
-ECPRIEthernetFrame::~ECPRIEthernetFrame() {
-    if (this->rtcData == NULL) {
+ECPRIEthernetFrame::~ECPRIEthernetFrame()
+{
+    if (this->rtcData == NULL)
+    {
         this->logger->log("rtcData in ECPRIEthernetFrame is NULL", Severity::ERROR);
-    } else {
+    }
+    else
+    {
         delete rtcData;
     }
 
-    if (this->logger != NULL) {
+    if (this->logger != NULL)
+    {
         delete logger;
     }
 }

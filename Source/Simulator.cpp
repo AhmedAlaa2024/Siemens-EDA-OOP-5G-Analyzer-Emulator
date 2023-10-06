@@ -1,10 +1,11 @@
 #include <iostream>
 #include <cstdio>
 
+#include <Simulator/Simulator.h>
 #include <EthernetPacketParser/EthernetPacketParser.h>
 #include <EthernetFrame/EthernetFrame.h>
-#include <Simulator/Simulator.h>
 #include <ValidatorEthernetFrame/ValidatorEthernetFrame.h>
+#include <EthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
 
 #define MAX_PACKET_SIZE 1526
 
@@ -25,21 +26,28 @@ void Simulator::simulate()
 
     EthernetPacketParser ethernetPacketParser;
     EthernetFrame *ethernetFrame;
-    
-    ValidatorEthernetFrame* ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
-    while (reader.nextLine(line, lineLength)) {
-        hexLine = new unsigned char[(*lineLength * 3) + 1]; // Room for "00 " for each character
-        int offset = 0; // Offset for writing into hexLine
 
-        for (size_t i = 0; i < *lineLength; i++) 
+    // PrinterEthernetFrameVisitor printer;
+
+    ValidatorEthernetFrame *ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
+
+    int packetNum = 0;
+    while (reader.nextLine(line, lineLength))
+    {
+        hexLine = new unsigned char[(*lineLength * 3) + 1]; // Room for "00 " for each character
+        int offset = 0;                                     // Offset for writing into hexLine
+
+        for (size_t i = 0; i < *lineLength; i++)
         {
-            offset += snprintf(reinterpret_cast<char*>(hexLine) + offset, (*lineLength * 3) - offset, "%02X", line[i]);
+            offset += snprintf(reinterpret_cast<char *>(hexLine) + offset, (*lineLength * 3) - offset, "%02X", line[i]);
         }
         hexLine[offset] = '\0'; // Add null terminator
 
-        this->logger->log("Packet: " + std::string(reinterpret_cast<char*>(hexLine)), Severity::INFO);
-        
+        this->logger->log("Packet: " + std::string(reinterpret_cast<char *>(hexLine)), Severity::INFO);
+
         ethernetFrame = ethernetPacketParser.parsePacket(line, *lineLength);
+
+        // ethernetFrame->accept(printer);
 
         delete ethernetFrame;
         delete[] hexLine; // Use delete[] for dynamic arrays
@@ -48,7 +56,8 @@ void Simulator::simulate()
 
 Simulator::~Simulator()
 {
-    if (this->logger != nullptr) {
+    if (this->logger != nullptr)
+    {
         delete this->logger;
     }
 }

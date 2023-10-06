@@ -3,20 +3,23 @@
 
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
-#include <EthernetFrame/ECPRIEthernetFrame.h>
-#include <EthernetFrame/RawEthernetFrame.h>
 
-class EthernetFrameVisitor{
+class RawEthernetFrame;
+class ECPRIEthernetFrame;
+
+class EthernetFrameVisitor
+{
+protected:
+    Logger *fileLogger;
+    Logger *consoleLogger;
+
+public:
     EthernetFrameVisitor();
-    protected:
-        Logger *fileLogger;
-        Logger *consoleLogger;
 
-    public:
-        virtual void visit(RawEthernetFrame ethernetframe);
-        virtual void visit(ECPRIEthernetFrame ecpriEthernetFrame);
+    virtual void visit(RawEthernetFrame *ethernetframe) = 0;
+    virtual void visit(ECPRIEthernetFrame *ecpriEthernetFrame) = 0;
 
     ~EthernetFrameVisitor();
 };
 
-#endif //ETHERNETFRAMEVISITOR_H
+#endif // ETHERNETFRAMEVISITOR_H
