@@ -28,6 +28,8 @@ void PrinterEthernetFrameVisitor::visit(RawEthernetFrame *ethernetframe)
     this->printHex(ethernetframe->getSourceAddress(), 6, "Source Address: ", true);
     this->printHex(ethernetframe->getType(), 2, "Type: ", true);
 
+    *(this->fileStream) << std::endl << "**************************************************************************************************************************************************************************************************************************************" << std::endl << std::endl;
+
     frameNum++;
 
     return;
@@ -49,14 +51,17 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
     this->printHex(messageTypeFormatted, 1);
 
     unsigned char *ecpriPayloadLengthFormatted = new unsigned char[2];
-    int ecpriPayloadLength = ethernetframe->getECPRIPayloadLength();
+    unsigned int ecpriPayloadLength = ethernetframe->getECPRIPayloadLength();
+
     ecpriPayloadLengthFormatted[0] = ecpriPayloadLength & 0xFF;
     ecpriPayloadLengthFormatted[1] = (ecpriPayloadLength >> 8) & 0xFF;
     this->printHex(ecpriPayloadLengthFormatted, 2);
 
+    ecpriPayloadLength = ((ecpriPayloadLength & 0xFF00) >> 8) | ((ecpriPayloadLength & 0xFF) << 8);
+
     this->printHex(ethernetframe->getRtcId(), 2);
     this->printHex(ethernetframe->getSeqId(), 2);
-    this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength - 4, "", true);
+    this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength, "");
     this->printHex(ethernetframe->getFcs(), 4, "", true);
 
     this->printHex(ethernetframe->getFcs(), 4, "CRC: ", true);
@@ -73,6 +78,8 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
     this->printHex(ethernetframe->getSeqId(), 2, "Sequence ID: ", true);
     this->printHex(ethernetframe->getSourceAddress(), 6, "Source Address: ", true);
     this->printHex(ethernetframe->getType(), 2, "Type: ", true);
+
+    *(this->fileStream) << std::endl << "**************************************************************************************************************************************************************************************************************************************" << std::endl << std::endl;
 
     frameNum++;
 

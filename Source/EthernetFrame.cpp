@@ -22,13 +22,6 @@ EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destination
     memcpy(this->type, type, 3);
     memcpy(this->fcs, fcs, 5);
 
-    std::cout << "CRC: ";
-    for (size_t i = 0; i < 4; i++)
-    {
-        std::cout << std::hex << std::setfill('0') << std::setw(2) << +this->fcs[i];
-    }
-    std::cout << std::endl;
-
     this->payloadSize = payloadSize;
 }
 
