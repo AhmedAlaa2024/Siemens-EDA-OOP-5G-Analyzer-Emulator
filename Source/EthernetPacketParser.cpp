@@ -58,8 +58,8 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
     headers.type[2] = '\0';
 
     /* Second, Copy the payload (data) itself from the right boundries of the packet string */
-    memcpy(headers.payload, packet + 22, packetSize - 18);
-    headers.payload[packetSize - 18] = '\0';
+    memcpy(headers.payload, packet + 22, packetSize - 26);
+    headers.payload[packetSize - 26] = '\0';
 
     /* Finaly, Copy the last 4 bytes as FCS (CRC) */
     memcpy(headers.crc, packet + packetSize - 4, 4);
@@ -73,25 +73,26 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
         struct ECPRIEthernetFrameHeaders ecpriHeaders;
 
         /* First, Copy all the headers of the packet from the beginning of the string */
-        ecpriHeaders.protocolVersion = headers.payload[0];
-        ecpriHeaders.concatenationIndicator = headers.payload[1];
-        ecpriHeaders.messageType = headers.payload[2];
+        ecpriHeaders.protocolVersion = (headers.payload[0] >> 4) & 0x0F;
+        ecpriHeaders.concatenationIndicator = (headers.payload[0] & 0x0F);
 
-        memcpy(ecpriHeaders.rtcId, headers.payload + 3, 2);
+        ecpriHeaders.messageType = headers.payload[1];
+
+        memcpy(&(ecpriHeaders.eCPRIpayloadLength), headers.payload + 2, 2);
+
+        memcpy(ecpriHeaders.rtcId, headers.payload + 4, 2);
         ecpriHeaders.rtcId[2] = '\0';
 
-        memcpy(ecpriHeaders.seqId, headers.payload + 5, 2);
+        memcpy(ecpriHeaders.seqId, headers.payload + 6, 2);
         ecpriHeaders.seqId[2] = '\0';
 
-        memcpy(&(ecpriHeaders.eCPRIpayloadLength), headers.payload + 7, 2);
-
         /* Second, Copy the payload (data) itself from the right boundries of the packet string */
-        memcpy(ecpriHeaders.rtcData, headers.payload + 9, packetSize - 18);
-        ecpriHeaders.rtcData[packetSize - 18] = '\0';
+        memcpy(ecpriHeaders.rtcData, headers.payload + 8, packetSize - 34);
+        ecpriHeaders.rtcData[packetSize - 34] = '\0';
 
         this->logger->log("ECPRI packet parsed successfully", Severity::INFO);
 
-        return new ECPRIEthernetFrame(headers.destination, headers.source, headers.type, headers.payload, headers.crc, packetSize - 18,
+        return new ECPRIEthernetFrame(headers.preamble, headers.destination, headers.source, headers.type, headers.crc, packetSize - 26,
                                       ecpriHeaders.protocolVersion, ecpriHeaders.concatenationIndicator, ecpriHeaders.messageType, ecpriHeaders.rtcId,
                                       ecpriHeaders.seqId, ecpriHeaders.eCPRIpayloadLength, ecpriHeaders.rtcData);
     }
@@ -99,7 +100,7 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
     {
         this->logger->log("Raw packet parsed successfully", Severity::INFO);
 
-        return new RawEthernetFrame(headers.preamble, headers.destination, headers.source, headers.type, headers.crc, packetSize - 18, headers.payload);
+        return new RawEthernetFrame(headers.preamble, headers.destination, headers.source, headers.type, headers.crc, packetSize - 26, headers.payload);
     }
 }
 
