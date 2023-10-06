@@ -75,7 +75,7 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
 
         /* First, Copy all the headers of the packet from the beginning of the string */
         ecpriHeaders.protocolVersion = (headers.payload[0] >> 4) & 0x0F;
-        
+
         ecpriHeaders.concatenationIndicator = (headers.payload[0] & 0x0F);
 
         ecpriHeaders.messageType = headers.payload[1];

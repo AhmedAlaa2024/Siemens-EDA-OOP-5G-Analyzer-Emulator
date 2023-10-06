@@ -16,22 +16,16 @@ RawEthernetFrame::RawEthernetFrame(unsigned char *preamble, unsigned char *desti
     this->logger->log("Creating new RawEthernetFrame", Severity::INFO);
 
     this->payload = new unsigned char[payloadSize];
-    strcpy((char *)this->payload, (const char *)payload);
+    memcpy(this->payload, payload, payloadSize);
 }
 
 unsigned char *RawEthernetFrame::getPayload()
 {
     unsigned char *payload = new unsigned char[payloadSize];
-    strcpy((char *)payload, (const char *)this->payload);
+    memcpy(payload, this->payload, payloadSize);
 
     return payload;
 }
-
-// bool RawEthernetFrame::validate(ValidatorEthernetFrameVisitor* validatorEthernetFrameVisitor) {
-//     validatorEthernetFrameVisitor->validate(this);
-
-//     return true;
-// }
 
 void RawEthernetFrame::accept(PrinterEthernetFrameVisitor &printerEthernetFrameVisitor)
 {
