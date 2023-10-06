@@ -16,17 +16,48 @@ int PrinterEthernetFrameVisitor::frameNum = 0;
 
 void PrinterEthernetFrameVisitor::visit(RawEthernetFrame *ethernetframe)
 {
-    this->printHex(ethernetframe->getPreamble(), 8, "Packet # " + std::to_string(frameNum) + ":\n");
-    this->printHex(ethernetframe->getDestinationAddress(), 6);
-    this->printHex(ethernetframe->getSourceAddress(), 6);
-    this->printHex(ethernetframe->getType(), 2);
-    this->printHex(ethernetframe->getPayload(), ethernetframe->getPayloadSize());
-    this->printHex(ethernetframe->getFcs(), 4, "", true);
+    /* Carry the output of each getter in a pointer to be able to delete it */
+    unsigned char* tempPtr;
 
+    tempPtr = ethernetframe->getPreamble();
+    this->printHex(ethernetframe->getPreamble(), 8, "Packet # " + std::to_string(frameNum) + ":\n");
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getDestinationAddress();
+    this->printHex(ethernetframe->getDestinationAddress(), 6);
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getSourceAddress();
+    this->printHex(ethernetframe->getSourceAddress(), 6);
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getType();
+    this->printHex(ethernetframe->getType(), 2);
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getPayload();
+    this->printHex(ethernetframe->getPayload(), ethernetframe->getPayloadSize());
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getFcs();
+    this->printHex(ethernetframe->getFcs(), 4, "", true);
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getFcs();
     this->printHex(ethernetframe->getFcs(), 4, "CRC: ", true);
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getDestinationAddress();
     this->printHex(ethernetframe->getDestinationAddress(), 6, "Destination Address: ", true);
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getSourceAddress();
     this->printHex(ethernetframe->getSourceAddress(), 6, "Source Address: ", true);
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getType();
     this->printHex(ethernetframe->getType(), 2, "Type: ", true);
+    delete tempPtr;
 
     *(this->fileStream) << std::endl << "**************************************************************************************************************************************************************************************************************************************" << std::endl << std::endl;
 
@@ -37,10 +68,24 @@ void PrinterEthernetFrameVisitor::visit(RawEthernetFrame *ethernetframe)
 
 void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
 {
-    this->printHex(ethernetframe->getPreamble(), 8, "Packet # " + std::to_string(frameNum) + ":\n");
+    /* Carry the output of each getter in a pointer to be able to delete it */
+    unsigned char* tempPtr;
+
+    tempPtr = ethernetframe->getPreamble();
+    this->printHex(tempPtr, 8, "Packet # " + std::to_string(frameNum) + ":\n");
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getDestinationAddress();
     this->printHex(ethernetframe->getDestinationAddress(), 6);
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getSourceAddress();
     this->printHex(ethernetframe->getSourceAddress(), 6);
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getType();
     this->printHex(ethernetframe->getType(), 2);
+    delete tempPtr;
 
     unsigned char *protocolVersion = new unsigned char[1];
     protocolVersion[0] = ethernetframe->getProtocolVersion();
@@ -59,25 +104,55 @@ void PrinterEthernetFrameVisitor::visit(ECPRIEthernetFrame *ethernetframe)
 
     ecpriPayloadLength = ((ecpriPayloadLength & 0xFF00) >> 8) | ((ecpriPayloadLength & 0xFF) << 8);
 
+    tempPtr = ethernetframe->getRtcId();
     this->printHex(ethernetframe->getRtcId(), 2);
-    this->printHex(ethernetframe->getSeqId(), 2);
-    this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength, "");
-    this->printHex(ethernetframe->getFcs(), 4, "", true);
+    delete tempPtr;
 
+    tempPtr = ethernetframe->getSeqId();
+    this->printHex(ethernetframe->getSeqId(), 2);
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getRtcData();
+    this->printHex(ethernetframe->getRtcData(), ecpriPayloadLength, "");
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getFcs();
+    this->printHex(ethernetframe->getFcs(), 4, "", true);
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getFcs();
     this->printHex(ethernetframe->getFcs(), 4, "CRC: ", true);
+    delete tempPtr;
+
 
     unsigned char *concatinationIndicatorFormatted = new unsigned char[1];
     concatinationIndicatorFormatted[0] = ethernetframe->getConcatenationIndicator();
 
     this->printHex(concatinationIndicatorFormatted, 1, "Concatenation Indicator: ", true);
+    
+    tempPtr = ethernetframe->getDestinationAddress();
     this->printHex(ethernetframe->getDestinationAddress(), 6, "Destination Address: ", true);
+    delete tempPtr;
+    
     this->printHex(messageTypeFormatted, 1, "Message Type: ", true);
     this->printHex(ecpriPayloadLengthFormatted, 2, "Payload Size: ", true);
     this->printHex(protocolVersion, 1, "Protocol Version: ", true);
+    
+    tempPtr = ethernetframe->getRtcId();
     this->printHex(ethernetframe->getRtcId(), 2, "RTC ID: ", true);
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getSeqId();
     this->printHex(ethernetframe->getSeqId(), 2, "Sequence ID: ", true);
+    delete tempPtr;
+    
+    tempPtr = ethernetframe->getRtcData();
     this->printHex(ethernetframe->getSourceAddress(), 6, "Source Address: ", true);
+    delete tempPtr;
+
+    tempPtr = ethernetframe->getRtcData();
     this->printHex(ethernetframe->getType(), 2, "Type: ", true);
+    delete tempPtr;
 
     *(this->fileStream) << std::endl << "**************************************************************************************************************************************************************************************************************************************" << std::endl << std::endl;
 
