@@ -15,7 +15,7 @@ private:
     unsigned char *rtcData;
 
 public:
-    ECPRIEthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
+    ECPRIEthernetFrame(unsigned char *fullFrame, int frameLength, unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
                        unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char protocolVersion, unsigned char concatenationIndicator,
                        unsigned char messageType, unsigned char *rtcId, unsigned char *seqId, int eCPRIpayloadLength, unsigned char *rtcData);
 

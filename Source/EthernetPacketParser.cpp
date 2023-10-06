@@ -8,10 +8,11 @@
 #include <Logger/FileLogger.h>
 
 #include <string.h>
-#include <iomanip>
 
 struct EthernetFrameHeaders
 {
+    unsigned char fullFrame[MAX_PACKET_SIZE];
+    int frameLength;
     unsigned char preamble[9];
     unsigned char destination[7];
     unsigned char source[7];
@@ -44,6 +45,10 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
     this->logger->log("Parsing packet...", Severity::INFO);
 
     struct EthernetFrameHeaders headers;
+
+    memcpy(&(headers.fullFrame), packet, packetSize);
+    headers.fullFrame[packetSize] = '\0';
+    headers.frameLength = packetSize;
 
     /* First, Copy all the headers of the packet from the beginning of the string */
     memcpy(&(headers.preamble), packet, 8);
@@ -94,7 +99,7 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
 
         this->logger->log("ECPRI packet parsed successfully", Severity::INFO);
 
-        return new ECPRIEthernetFrame(headers.preamble, headers.destination, headers.source, headers.type, headers.crc, packetSize - 26,
+        return new ECPRIEthernetFrame(headers.fullFrame, headers.frameLength, headers.preamble, headers.destination, headers.source, headers.type, headers.crc, packetSize - 26,
                                       ecpriHeaders.protocolVersion, ecpriHeaders.concatenationIndicator, ecpriHeaders.messageType, ecpriHeaders.rtcId,
                                       ecpriHeaders.seqId, ecpriHeaders.eCPRIpayloadLength, ecpriHeaders.rtcData);
     }
@@ -102,7 +107,7 @@ EthernetFrame *EthernetPacketParser::parsePacket(const unsigned char *packet, in
     {
         this->logger->log("Raw packet parsed successfully", Severity::INFO);
 
-        return new RawEthernetFrame(headers.preamble, headers.destination, headers.source, headers.type, headers.crc, packetSize - 26, headers.payload);
+        return new RawEthernetFrame(headers.fullFrame, headers.frameLength, headers.preamble, headers.destination, headers.source, headers.type, headers.crc, packetSize - 26, headers.payload);
     }
 }
 

@@ -8,7 +8,7 @@
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 
-EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
+EthernetFrame::EthernetFrame(unsigned char *fullFrame, int frameLength, unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
                              unsigned char *type, unsigned char *fcs, int payloadSize)
 {
 
@@ -16,6 +16,8 @@ EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destination
     this->logger->setSuccessor(new FileLogger("Simulation.log"));
     this->logger->log("Creating new EthernetFrame", Severity::INFO);
 
+    this->frameLength = frameLength;
+    memcpy(this->fullFrame, fullFrame, frameLength + 1);
     memcpy(this->preamble, preamble, 9);
     memcpy(this->destinationAddress, destinationAddress, 7);
     memcpy(this->sourceAddress, sourceAddress, 7);
@@ -23,6 +25,19 @@ EthernetFrame::EthernetFrame(unsigned char *preamble, unsigned char *destination
     memcpy(this->fcs, fcs, 5);
 
     this->payloadSize = payloadSize;
+}
+
+unsigned char *EthernetFrame::getFullFrame()
+{
+    unsigned char *fullFrame = new unsigned char[this->frameLength + 1];
+    memcpy((char *)fullFrame, (const char *)this->fullFrame, this->frameLength + 1);
+
+    return fullFrame;
+}
+
+int EthernetFrame::getFrameLength()
+{
+    return this->frameLength;
 }
 
 unsigned char *EthernetFrame::getPreamble()

@@ -8,10 +8,10 @@
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 
-ECPRIEthernetFrame::ECPRIEthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
+ECPRIEthernetFrame::ECPRIEthernetFrame(unsigned char *fullFrame, int frameLength, unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
                                        unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char protocolVersion, unsigned char concatenationIndicator,
                                        unsigned char messageType, unsigned char *rtcId, unsigned char *seqId, int eCPRIpayloadLength, unsigned char *rtcData)
-    : EthernetFrame(preamble, destinationAddress, sourceAddress, type, fcs, payloadSize)
+    : EthernetFrame(fullFrame, frameLength, preamble, destinationAddress, sourceAddress, type, fcs, payloadSize)
 {
 
     this->logger = new ConsoleLogger();

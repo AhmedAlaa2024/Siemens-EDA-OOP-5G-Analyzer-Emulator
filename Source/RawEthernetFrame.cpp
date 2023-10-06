@@ -7,8 +7,9 @@
 #include <Logger/ConsoleLogger.h>
 #include <Logger/FileLogger.h>
 
-RawEthernetFrame::RawEthernetFrame(unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
-                                   unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char *payload) : EthernetFrame(preamble, destinationAddress, sourceAddress, type, fcs, payloadSize)
+RawEthernetFrame::RawEthernetFrame(unsigned char *fullFrame, int frameLength, unsigned char *preamble, unsigned char *destinationAddress, unsigned char *sourceAddress,
+                                   unsigned char *type, unsigned char *fcs, int payloadSize, unsigned char *payload)
+    : EthernetFrame(fullFrame, frameLength, preamble, destinationAddress, sourceAddress, type, fcs, payloadSize)
 {
 
     this->logger = new ConsoleLogger();

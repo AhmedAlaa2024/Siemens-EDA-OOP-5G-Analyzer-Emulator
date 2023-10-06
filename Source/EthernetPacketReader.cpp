@@ -27,12 +27,16 @@ bool EthernetPacketReader::nextLine(unsigned char *line, int *lineLength)
     {
         return false;
     }
-    ValidatorEthernetFrame* ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
-    if(!ValidatorEthernetFrame->validateEthernetFrame(hexLine.length())){
+
+    ValidatorEthernetFrame *ValidatorEthernetFrame = ValidatorEthernetFrame::getInstance();
+
+    if (!ValidatorEthernetFrame->validateEthernetFrame(hexLine.length()))
+    {
         return false;
     }
-    *lineLength = hexLine.length() / 2;
 
+    // Convert every two consecutive characters to an integer base 16
+    *lineLength = hexLine.length() / 2;
     for (size_t i = 0; i < hexLine.length(); i += 2)
     {
         line[i / 2] = std::stoi(hexLine.substr(i, 2), nullptr, 16);

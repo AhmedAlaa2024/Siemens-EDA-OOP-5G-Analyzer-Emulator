@@ -7,8 +7,6 @@
 #include <ValidatorEthernetFrame/ValidatorEthernetFrame.h>
 #include <EthernetFrameVisitor/PrinterEthernetFrameVisitor.h>
 
-#define MAX_PACKET_SIZE 1526
-
 Simulator::Simulator()
 {
     this->logger = new ConsoleLogger();

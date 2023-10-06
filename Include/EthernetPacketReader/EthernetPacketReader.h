@@ -17,7 +17,17 @@ private:
 
 public:
 	EthernetPacketReader(std::string inputFilePath);
+
+	/**
+	 * @brief Fetches the next line from the input file
+	 *
+	 * @param line Fetched line
+	 * @param lineLength Fetched line length
+	 * @return true if fetched successfully
+	 * @return false if the fetching failed
+	 */
 	bool nextLine(unsigned char *line, int *lineLength);
+
 	~EthernetPacketReader();
 };
 
