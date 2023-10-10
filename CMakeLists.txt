@@ -29,7 +29,20 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(${CMAKE_SOURCE_DIR}/Include)
 
 # Find all .cpp files in the "Source" directory, including main.cpp
-file(GLOB SOURCES "Source/*.cpp")
+# file(GLOB SOURCES "Source/*")
+set(SOURCES
+    Source/main.cpp
+
+    Source/ECPRIEthernetFrame.cpp
+    Source/EthernetFrame.cpp
+    Source/EthernetFrameVisitor.cpp
+    Source/EthernetPacketParser.cpp
+    Source/EthernetPacketReader.cpp
+    Source/PrinterEthernetFrameVisitor.cpp
+    Source/RawEthernetFrame.cpp
+    Source/Simulator.cpp
+    Source/ValidatorEthernetFrame.cpp
+)
 
 # Include the "Tests" directory only if ENABLE_TESTS is ON
 # if (ENABLE_TESTS)
